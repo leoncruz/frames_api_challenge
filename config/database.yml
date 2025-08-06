@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: postgres
+  port: 5432
+  password: postgres
+  username: postgres
+
+
+development:
+  <<: *default
+  database: frames_api_challenge_development
+
+test:
+  <<: *default
+  database: frames_api_challenge_test
+
+production:
+  <<: *default
+  database: frames_api_challenge_production
+  username: frames_api_challenge
+  password: <%= ENV["FRAMES_API_CHALLENGE_DATABASE_PASSWORD"] %>
