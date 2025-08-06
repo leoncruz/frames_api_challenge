@@ -38,3 +38,7 @@ group :development, :test do
 
   gem "rspec-rails", "~> 8.0.0"
 end
+
+group :test do
+  gem "shoulda-matchers", "~> 6.0"
+end
