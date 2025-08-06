@@ -1,4 +1,6 @@
 class Frame < ApplicationRecord
+  has_many :circles, dependent: :destroy
+
   validates :center_x, :center_y, :width, :height, presence: true
   validates :width, :height, numericality: { greater_than: 0 }
   validate :does_not_touch_or_overlap_other_frames
