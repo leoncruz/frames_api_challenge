@@ -9,6 +9,16 @@ class FramesController < ApplicationController
     end
   end
 
+  def destroy
+    @frame = Frame.find(params[:id])
+
+    if @frame.circles.empty? && @frame.destroy
+      head :no_content
+    else
+      render json: { errors: "Frame could not be deleted" }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def frame_params
