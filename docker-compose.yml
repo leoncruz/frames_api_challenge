@@ -8,7 +8,9 @@ services:
       - 3000:3000
     volumes:
       - .:/app
-      - gems:/app/vendor/bundle
+      - bundle_data:/usr/local/bundle
+    environment:
+      BUNDLE_PATH: /usr/local/bundle
 
   postgres:
     image: postgres:16.1
@@ -23,4 +25,4 @@ services:
 
 volumes:
   postgres-data:
-  gems:
+  bundle_data:
