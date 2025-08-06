@@ -1,5 +1,6 @@
 class CirclesController < ApplicationController
   before_action :set_frame, only: :create
+  before_action :set_circle, only: [ :update, :destroy ]
 
   def create
     @circle = @frame.circles.build(circle_params)
@@ -11,9 +12,15 @@ class CirclesController < ApplicationController
     end
   end
 
-  def destroy
-    @circle = Circle.find(params[:id])
+  def update
+    if @circle.update(circle_params)
+      render json: { circle: @circle }, status: :ok
+    else
+      render json: { errors: @circle.errors.full_messages }, status: :unprocessable_entity
+    end
+  end
 
+  def destroy
     if @circle.destroy
       head :no_content
     else
@@ -25,6 +32,10 @@ class CirclesController < ApplicationController
 
   def set_frame
     @frame = Frame.find(params[:frame_id])
+  end
+
+  def set_circle
+    @circle = Circle.find(params[:id])
   end
 
   def circle_params

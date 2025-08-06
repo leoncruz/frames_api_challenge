@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   scope :api do
     scope :v1 do
       resources :frames, only: [ :create, :destroy ] do
-        resources :circles, only: [ :create, :destroy ], shallow: true
+        resources :circles, only: [ :create, :destroy, :update ], shallow: true
       end
     end
   end
