@@ -10,6 +10,8 @@ Rails.application.routes.draw do
       resources :frames, only: [ :create, :destroy, :show ] do
         resources :circles, only: [ :create, :destroy, :update ], shallow: true
       end
+
+      resources :circles, only: [ :index ]
     end
   end
 end

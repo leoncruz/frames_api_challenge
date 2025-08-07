@@ -2,6 +2,24 @@ class CirclesController < ApplicationController
   before_action :set_frame, only: :create
   before_action :set_circle, only: [ :update, :destroy ]
 
+  def index
+    center_x = params[:center_x]&.to_f
+    center_y = params[:center_y]&.to_f
+    radius = params[:radius]&.to_f
+    frame_id = params[:frame_id]
+
+    circles = Circle.all
+    circles = circles.where(frame_id: frame_id) if frame_id.present?
+
+    circles = circles.where(
+      <<-SQL.squish, center_x: center_x, center_y: center_y, radius: radius
+        (SQRT(POWER(center_x - :center_x, 2) + POWER(center_y - :center_y, 2)) + (diameter / 2.0)) <= :radius
+      SQL
+    )
+
+    render json: { circles: circles }, status: :ok
+  end
+
   def create
     @circle = @frame.circles.build(circle_params)
 
