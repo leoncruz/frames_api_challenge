@@ -1,0 +1,213 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/circles":
+    get:
+      summary: List circles filtered by optional radius and center
+      tags:
+      - Circles
+      parameters:
+      - name: frame_id
+        in: query
+        description: Frame ID
+        schema:
+          type: string
+      - name: center_x
+        in: query
+        format: float
+        description: X center of search
+        schema:
+          type: number
+      - name: center_y
+        in: query
+        format: float
+        description: Y center of search
+        schema:
+          type: number
+      - name: radius
+        in: query
+        format: float
+        description: Search radius
+        schema:
+          type: number
+      responses:
+        '200':
+          description: circles listed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  circles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        center_x:
+                          type: number
+                        center_y:
+                          type: number
+                        diameter:
+                          type: number
+                        frame_id:
+                          type: integer
+                      required:
+                      - id
+                      - center_x
+                      - center_y
+                      - diameter
+                      - frame_id
+  "/frames/{frame_id}/circles":
+    post:
+      summary: Create a circle in the given frame
+      tags:
+      - Circles
+      parameters:
+      - name: frame_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '201':
+          description: circle created
+        '422':
+          description: invalid parameters
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                circle:
+                  type: object
+                  properties:
+                    center_x:
+                      type: number
+                    center_y:
+                      type: number
+                    diameter:
+                      type: number
+                  required:
+                  - center_x
+                  - center_y
+                  - diameter
+  "/circles/{id}":
+    patch:
+      summary: Update a circle
+      tags:
+      - Circles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: circle updated
+        '422':
+          description: invalid update
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                circle:
+                  type: object
+                  properties:
+                    center_x:
+                      type: number
+                    center_y:
+                      type: number
+                    diameter:
+                      type: number
+    delete:
+      summary: Delete a circle
+      tags:
+      - Circles
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: circle deleted
+        '404':
+          description: circle not found or could not be deleted
+  "/api/v1/frames":
+    post:
+      summary: Create a Frame
+      tags:
+      - Frames
+      parameters: []
+      responses:
+        '201':
+          description: frame created
+        '422':
+          description: invalid frame
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                frame:
+                  type: object
+                  required:
+                  - center_x
+                  - center_y
+                  - width
+                  - height
+                  properties:
+                    center_x:
+                      type: number
+                    center_y:
+                      type: number
+                    width:
+                      type: number
+                    height:
+                      type: number
+              required:
+              - frame
+  "/api/v1/frames/{id}":
+    get:
+      summary: Show a Frame
+      tags:
+      - Frames
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: frame found
+        '404':
+          description: frame not found
+    delete:
+      summary: Delete a Frame
+      tags:
+      - Frames
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: frame deleted
+        '422':
+          description: cannot delete frame with circles
+servers:
+- url: http://localhost:3000
