@@ -4,7 +4,7 @@ info:
   title: API V1
   version: v1
 paths:
-  "/circles":
+  "/api/v1/circles":
     get:
       summary: List circles filtered by optional radius and center
       tags:
@@ -49,11 +49,11 @@ paths:
                         id:
                           type: integer
                         center_x:
-                          type: number
+                          type: string
                         center_y:
-                          type: number
+                          type: string
                         diameter:
-                          type: number
+                          type: string
                         frame_id:
                           type: integer
                       required:
@@ -62,7 +62,7 @@ paths:
                       - center_y
                       - diameter
                       - frame_id
-  "/frames/{frame_id}/circles":
+  "/api/v1/frames/{frame_id}/circles":
     post:
       summary: Create a circle in the given frame
       tags:
@@ -97,7 +97,7 @@ paths:
                   - center_x
                   - center_y
                   - diameter
-  "/circles/{id}":
+  "/api/v1/circles/{id}":
     patch:
       summary: Update a circle
       tags:

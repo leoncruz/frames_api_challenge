@@ -26,16 +26,20 @@ class CirclesController < ApplicationController
     if @circle.save
       render json: { circle: @circle }, status: :created
     else
-      render json: { errors: @circle.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @circle.errors.full_messages }, status: :unprocessable_content
     end
+  rescue StandardError
+    render json: { errors: @circle.errors.full_messages }, status: :unprocessable_content
   end
 
   def update
     if @circle.update(circle_params)
       render json: { circle: @circle }, status: :ok
     else
-      render json: { errors: @circle.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @circle.errors.full_messages }, status: :unprocessable_content
     end
+  rescue StandardError
+    render json: { errors: @circle.errors.full_messages }, status: :unprocessable_content
   end
 
   def destroy

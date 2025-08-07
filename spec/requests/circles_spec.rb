@@ -1,7 +1,7 @@
 require 'swagger_helper'
 
 RSpec.describe 'Circles API', type: :request do
-  path '/circles' do
+  path '/api/v1/circles' do
     get 'List circles filtered by optional radius and center' do
       tags 'Circles'
       produces 'application/json'
@@ -19,9 +19,9 @@ RSpec.describe 'Circles API', type: :request do
                      type: :object,
                      properties: {
                        id: { type: :integer },
-                       center_x: { type: :number },
-                       center_y: { type: :number },
-                       diameter: { type: :number },
+                       center_x: { type: :string },
+                       center_y: { type: :string },
+                       diameter: { type: :string },
                        frame_id: { type: :integer }
                      },
                      required: %w[id center_x center_y diameter frame_id]
@@ -42,7 +42,7 @@ RSpec.describe 'Circles API', type: :request do
     end
   end
 
-  path '/frames/{frame_id}/circles' do
+  path '/api/v1/frames/{frame_id}/circles' do
     post 'Create a circle in the given frame' do
       tags 'Circles'
       consumes 'application/json'
@@ -95,7 +95,7 @@ RSpec.describe 'Circles API', type: :request do
     end
   end
 
-  path '/circles/{id}' do
+  path '/api/v1/circles/{id}' do
     patch 'Update a circle' do
       tags 'Circles'
       consumes 'application/json'

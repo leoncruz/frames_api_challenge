@@ -7,7 +7,7 @@ class FramesController < ApplicationController
     if @frame.save
       render json: { frame: @frame }, status: :created
     else
-      render json: { errors: @frame.errors.full_messages }, status: :unprocessable_entity
+      render json: { errors: @frame.errors.full_messages }, status: :unprocessable_content
     end
   end
 
@@ -21,7 +21,7 @@ class FramesController < ApplicationController
       highest_circle: { x: @frame.highest_circle.center_x, y: @frame.highest_circle.center_y },
       lowest_circle: { x: @frame.lowest_circle.center_x, y: @frame.lowest_circle.center_y },
       leftmost_circle: { x: @frame.leftmost_circle.center_x, y: @frame.leftmost_circle.center_y },
-      rightmost_circle: { x: @frame.rightmost_circle.center_x, y: @frame.rightmost_circle.center_y }
+      rightmost_circle: { x: @frame.leftmost_circle.center_x, y: @frame.leftmost_circle.center_y }
     }
   end
 
@@ -29,7 +29,7 @@ class FramesController < ApplicationController
     if @frame.circles.empty? && @frame.destroy
       head :no_content
     else
-      render json: { errors: "Frame could not be deleted" }, status: :unprocessable_entity
+      render json: { errors: "Frame could not be deleted" }, status: :unprocessable_content
     end
   end
 
