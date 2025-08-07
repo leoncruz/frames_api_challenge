@@ -176,6 +176,21 @@ paths:
                       type: number
                     height:
                       type: number
+                    circles_attributes:
+                      type: array
+                      items:
+                        type: object
+                        required:
+                        - center_x
+                        - center_y
+                        - diameter
+                        properties:
+                          center_x:
+                            type: number
+                          center_y:
+                            type: number
+                          diameter:
+                            type: number
               required:
               - frame
   "/api/v1/frames/{id}":

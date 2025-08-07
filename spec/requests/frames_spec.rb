@@ -16,7 +16,19 @@ RSpec.describe 'Frames API', type: :request do
               center_x: { type: :number },
               center_y: { type: :number },
               width: { type: :number },
-              height: { type: :number }
+              height: { type: :number },
+              circles_attributes: {
+                type: :array,
+                items: {
+                  type: :object,
+                  required: %w[center_x center_y diameter],
+                  properties: {
+                    center_x: { type: :number },
+                    center_y: { type: :number },
+                    diameter: { type: :number }
+                  }
+                }
+              }
             }
           }
         },
@@ -24,12 +36,39 @@ RSpec.describe 'Frames API', type: :request do
       }
 
       response '201', 'frame created' do
-        let(:frame) { { frame: { center_x: 100, center_y: 100, width: 200, height: 200 } } }
+        let(:frame) do
+          {
+            frame: {
+              center_x: 100,
+              center_y: 100,
+              width: 200,
+              height: 200,
+              circles_attributes: [
+                { center_x: 120, center_y: 120, diameter: 30 },
+                { center_x: 160, center_y: 140, diameter: 20 }
+              ]
+            }
+          }
+        end
+
         run_test!
       end
 
       response '422', 'invalid frame' do
-        let(:frame) { { frame: { center_x: nil, center_y: nil, width: nil, height: nil } } }
+        let(:frame) do
+          {
+            frame: {
+              center_x: nil,
+              center_y: nil,
+              width: nil,
+              height: nil,
+              circles_attributes: [
+                { center_x: nil, center_y: nil, diameter: nil }
+              ]
+            }
+          }
+        end
+
         run_test!
       end
     end

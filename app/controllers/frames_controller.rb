@@ -5,10 +5,12 @@ class FramesController < ApplicationController
     @frame = Frame.new(frame_params)
 
     if @frame.save
-      render json: { frame: @frame }, status: :created
+      render json: { frame: @frame.as_json(include: :circles) }, status: :created
     else
       render json: { errors: @frame.errors.full_messages }, status: :unprocessable_content
     end
+  rescue StandardError
+    render json: { errors: @frame.errors.full_messages }, status: :unprocessable_content
   end
 
   def show
@@ -40,6 +42,14 @@ class FramesController < ApplicationController
   end
 
   def frame_params
-    params.require(:frame).permit(:center_x, :center_y, :width, :height)
+    params
+      .require(:frame)
+      .permit(
+        :center_x,
+        :center_y,
+        :width,
+        :height,
+        circles_attributes: [ :center_x, :center_y, :diameter ]
+      )
   end
 end
